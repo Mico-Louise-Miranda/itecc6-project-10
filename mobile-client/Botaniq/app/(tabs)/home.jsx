@@ -8,9 +8,110 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useState } from "react";
+
+// Copied plants data from garden.jsx
+const plants = [
+  { 
+    name: "Peace Lily", 
+    image: require("../../assets/peace-lily-plant-white-pot.jpg"),
+    description: "The Peace Lily is an elegant indoor plant with glossy, dark green leaves and beautiful white flowers.",
+    scientificName: "Spathiphyllum",
+    sunlight: "Medium to Low Light",
+    water: "Weekly, when soil is dry",
+    soilType: "Well-draining potting mix"
+  },
+  { 
+    name: "Fiddle Leaf Fig", 
+    image: require("../../assets/fiddle-leaf-fig.jpg"),
+    description: "The Fiddle Leaf Fig is famous for its large, violin-shaped leaves and makes a dramatic statement in any space.",
+    scientificName: "Ficus lyrata",
+    sunlight: "Bright, indirect light",
+    water: "Every 7-10 days",
+    soilType: "Well-draining potting soil"
+  },
+  { 
+    name: "Faux Watermelon Peperomia", 
+    image: require("../../assets/faux-watermelon-peperomia.jpg"),
+    description: "The Watermelon Peperomia has striking watermelon-patterned leaves that add a unique touch to your plant collection.",
+    scientificName: "Peperomia argyreia",
+    sunlight: "Medium, indirect light",
+    water: "When top soil is dry",
+    soilType: "Peat-based potting mix"
+  },
+  { 
+    name: "African Mask", 
+    image: require("../../assets/african-mask.jpg"),
+    description: "The African Mask plant (Alocasia) features dramatic arrow-shaped leaves with prominent white veins.",
+    scientificName: "Alocasia amazonica",
+    sunlight: "Bright, indirect light",
+    water: "Keep soil moist",
+    soilType: "Rich, well-draining mix"
+  },
+  { 
+    name: "Alocasia", 
+    image: require("../../assets/alocasia.jpg"),
+    description: "Alocasia plants have large, exotic foliage with distinctive veining and unique leaf shapes.",
+    scientificName: "Alocasia spp.",
+    sunlight: "Bright, indirect light",
+    water: "Regular watering",
+    soilType: "Rich, moist soil"
+  },
+  { 
+    name: "ZZ Plant", 
+    image: require("../../assets/zz-plant-.jpg"),
+    description: "The ZZ Plant is virtually indestructible with its glossy, dark green leaves and ability to thrive on neglect.",
+    scientificName: "Zamioculcas zamiifolia",
+    sunlight: "Low to bright indirect",
+    water: "Every 2-3 weeks",
+    soilType: "Standard potting mix"
+  },
+  { 
+    name: "Alocasia Polly", 
+    image: require("../../assets/alocasia-polly.jpg"),
+    description: "Alocasia Polly is a compact variety with striking arrow-shaped, dark green leaves with white veining.",
+    scientificName: "Alocasia 'Polly'",
+    sunlight: "Bright, indirect light",
+    water: "Keep soil moist",
+    soilType: "Well-draining mix"
+  },
+  { 
+    name: "Palm Tree", 
+    image: require("../../assets/palm tree.png"),
+    description: "Palm Trees bring a tropical feel to any space with their elegant fronds and structural presence.",
+    scientificName: "Arecaceae family",
+    sunlight: "Bright, indirect light",
+    water: "Once a week",
+    soilType: "Sandy, well-draining"
+  },
+  { 
+    name: "Serene Sansevieria", 
+    image: require("../../assets/serene sanseviera.jpg"),
+    description: "Also known as Snake Plant, Sansevieria is known for its upright, sword-like leaves and air-purifying qualities.",
+    scientificName: "Sansevieria trifasciata",
+    sunlight: "Low to bright light",
+    water: "Every 2-4 weeks",
+    soilType: "Well-draining, sandy mix"
+  },
+];
 
 export default function Home() {
   const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? plants.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === plants.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const currentPlant = plants[currentIndex];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,7 +119,7 @@ export default function Home() {
         <Text style={styles.title}>Botaniq</Text>
 
         <View style={styles.plantPreview}>
-          <TouchableOpacity style={styles.arrowButton}>
+          <TouchableOpacity style={styles.arrowButton} onPress={handlePrevious}>
             <MaterialCommunityIcons
               name="chevron-left"
               size={24}
@@ -28,21 +129,15 @@ export default function Home() {
 
           <View style={styles.plantCard}>
             <View style={styles.imageBox}>
-              <MaterialCommunityIcons
-                name="close"
-                size={24}
-                color="#2E2E2E"
-                style={styles.crossIcon}
-              />
+              <Image source={currentPlant.image} style={styles.plantImage} />
             </View>
-            <Text style={styles.plantName}>Rose</Text>
+            <Text style={styles.plantName}>{currentPlant.name}</Text>
             <Text style={styles.plantDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {currentPlant.description}
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.arrowButton}>
+          <TouchableOpacity style={styles.arrowButton} onPress={handleNext}>
             <MaterialCommunityIcons
               name="chevron-right"
               size={24}
@@ -53,7 +148,7 @@ export default function Home() {
 
         <TouchableOpacity
           style={styles.viewButton}
-          onPress={() => router.push("/plant-preview")}
+          onPress={() => router.push({ pathname: "/plant-preview", params: { plantName: currentPlant.name } })}
         >
           <Text style={styles.viewButtonText}>View Plant</Text>
         </TouchableOpacity>
@@ -103,12 +198,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
-  crossIcon: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: [{ translateX: -12 }, { translateY: -12 }, { rotate: "45deg" }],
+  plantImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
   plantName: {
     fontSize: 24,
