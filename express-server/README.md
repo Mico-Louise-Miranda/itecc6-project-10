@@ -5,6 +5,7 @@ Backend server for the Plant Care Tracker application built with Express.js and 
 ## Setup Instructions
 
 1. Install dependencies:
+
 ```
 npm install
 ```
@@ -12,17 +13,20 @@ npm install
 2. Configure environment variables:
    - Create a `.env` file in the root directory
    - Copy contents from `.env.sample` and replace with your actual values:
+
 ```
 MONGODB_URI=mongodb+srv://<username>:<password>@<your-cluster-url>/<database>?retryWrites=true&w=majority
 PORT=3001
 ```
 
 3. Run the server:
+
 ```
-npm start
+npm start index.js
 ```
 
 ## Features
+
 - RESTful API for plant management
 - MongoDB Atlas integration with fallback to in-memory storage
 - Image upload functionality
@@ -30,26 +34,28 @@ npm start
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | / | Get all plants |
-| POST | /addPlant | Add a new plant |
-| GET | /getPlant/:id | Get a specific plant by ID |
-| PUT | /updatePlant/:id | Update a plant |
-| DELETE | /deletePlant/:id | Delete a plant |
-| POST | /waterPlant/:id | Mark a plant as watered |
-| GET | /wateringSchedule | Get watering schedule for all plants |
-| POST | /upload | Upload a plant image |
+| Method | Endpoint          | Description                          |
+| ------ | ----------------- | ------------------------------------ |
+| GET    | /                 | Get all plants                       |
+| POST   | /addPlant         | Add a new plant                      |
+| GET    | /getPlant/:id     | Get a specific plant by ID           |
+| PUT    | /updatePlant/:id  | Update a plant                       |
+| DELETE | /deletePlant/:id  | Delete a plant                       |
+| POST   | /waterPlant/:id   | Mark a plant as watered              |
+| GET    | /wateringSchedule | Get watering schedule for all plants |
+| POST   | /upload           | Upload a plant image                 |
 
 ## Database
+
 Connected to MongoDB Atlas with Mongoose ODM.
 
-# Command to view the data input to our database:  "node view-data.js"
+# Command to view the data input to our database: "node view-data.js"
+
 # Connected to MongoDB Atlas successfully
 
 ==== ALL PLANTS IN DATABASE ====
 
-Result for mock data:  
+Result for mock data:
 
 --- Plant 1 ---
 ID: 681de4cc2d87989d8686929c
@@ -63,9 +69,10 @@ Last Watered: Tue May 13 2025
 Next Watering: Fri May 16 2025
 Watering Frequency: Every 3 days
 Watering History: 4 entries
-  - Fri May 09 2025
-  - Fri May 09 2025
-  - Tue May 13 2025
+
+- Fri May 09 2025
+- Fri May 09 2025
+- Tue May 13 2025
   ... and 1 more entries
 
 --- Plant 2 ---
@@ -80,9 +87,10 @@ Last Watered: Tue May 13 2025
 Next Watering: Fri May 30 2025
 Watering Frequency: Every 17 days
 Watering History: 5 entries
-  - Fri May 09 2025
-  - Fri May 09 2025
-  - Fri May 09 2025
+
+- Fri May 09 2025
+- Fri May 09 2025
+- Fri May 09 2025
   ... and 2 more entries
 
 --- Plant 3 ---
@@ -97,9 +105,10 @@ Last Watered: Tue May 13 2025
 Next Watering: Tue May 20 2025
 Watering Frequency: Every 7 days
 Watering History: 5 entries
-  - Fri May 09 2025
-  - Fri May 09 2025
-  - Tue May 13 2025
+
+- Fri May 09 2025
+- Fri May 09 2025
+- Tue May 13 2025
   ... and 2 more entries
 
 Total plants: 3
